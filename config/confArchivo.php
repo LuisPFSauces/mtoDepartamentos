@@ -6,4 +6,6 @@
  * and open the template in the editor.
  */
 
-define("rutaIndex", "192.168.3.204");
+define("rutaCodigo", "http://192.168.1.204/proyectoDWES/mtoDepartamentos/codigoPHP");
+define("rutaTmp", "http://192.168.1.204/proyectoDWES/mtoDepartamentos/tmp");
+define("rutaIndex", "http://192.168.1.204/proyectoDWES/mtoDepartamentos/");

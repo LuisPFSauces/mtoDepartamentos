@@ -14,12 +14,12 @@
     define("USER", "usuarioDAW204DBDepartamentos");
     define("PASSWORD", "paso");//P@ssw0rd
     */
-    define("DSN", "mysql:host=192.168.1.115;dbname=DAW204DBDepartamentos");//mysql:host=192.168.1.115;dbname=DAW204DBDepartamentos
+    define("DSN", "mysql:host=192.168.1.204;dbname=DAW204DBDepartamentos");//mysql:host=192.168.1.115;dbname=DAW204DBDepartamentos
     define("USER", "usuarioDAW204DBDepartamentos");
     define("PASSWORD", "P@ssw0rd");//P@ssw0rd
-  /*
+    /*
     define("DSN", "mysql:host=db771560183.hosting-data.io;dbname=db771560183");
     define("USER", "dbu771560183");
     define("PASSWORD", "Covid1234$");
- 
+    
  */
