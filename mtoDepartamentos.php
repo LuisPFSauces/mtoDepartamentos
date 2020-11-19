@@ -21,7 +21,7 @@ if (isset($_REQUEST["alta"])) {
     header('Location:' . rutaCodigo . '/altaDepartamento.php');
 }
 if (isset($_REQUEST["volver"])) {
-    
+    header("Location: ".rutaIndex);
 }
 if (isset($_REQUEST["mostrarCodigo"])) {
     
@@ -93,7 +93,7 @@ if (isset($_REQUEST["mostrarCodigo"])) {
                     echo "\t<td>" . $oDepartamento->DescDepartamento . "</td>";
                     echo "\t<td>" . $oDepartamento->FechaBaja . "</td>";
                     echo "\t<td>" . $oDepartamento->VolumenNegocio . "</td>";
-                    echo "<td><a href=\"" . rutaCodigo . "/editarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#9999;&#65039;</a>	<a href=\"" . rutaCodigo . "/bajaDepartamento?codigo=" . $oDepartamento->CodDepartamento . "\">&#128465;&#65039;</a> <a href=\"" . rutaCodigo . "/mostrarDepartamento?codigo=" . $oDepartamento->CodDepartamento . "\">&#128270;</a> </td>\n</tr>";
+                    echo "<td><a href=\"" . rutaCodigo . "/editarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#9999;&#65039;</a>	<a href=\"" . rutaCodigo . "/bajaDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128465;&#65039;</a> <a href=\"" . rutaCodigo . "/mostrarDepartamento?codigo=" . $oDepartamento->CodDepartamento . "\">&#128270;</a> </td>\n</tr>";
                     $oDepartamento = $departamentos->fetchObject();
                 }
                 echo "</tbody>\n\t</table>";
@@ -106,5 +106,8 @@ if (isset($_REQUEST["mostrarCodigo"])) {
             unset($miDB);
         }
         ?>
+        <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
+            <input type="submit" value="Volver" name="volver">
+        </form>
     </body>
 </html>
