@@ -5,23 +5,20 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
-require_once './config/confArchivo.php';
+require_once 'config/confArchivo.php';
+require_once './config/confDBPDO.php';
+
 if (isset($_REQUEST["volver"])) {
     header('Location: ' . rutaCodigo . "//");
 }
 if (isset($_REQUEST["importar"])) {
-    
+    exo_return_hescriptcom("UserMain.OpenDlgFile", "Error");
 }
 if (isset($_REQUEST["exportar"])) {
-    //exec("php codigoPHP/exportar.php");
-    //shell_exec("php codigoPHP/exportar.php");
-    require 'codigoPHP/exportar.php';
-    /* header('Content-Disposition: attachment;filename="SQL.xml"');
-      header('Content-Type: text/xml');
-      readfile(rutaTmp."/SQL.xml"); */
+    header('Location:' . rutaCodigo . '/exportarDepartamento.php');
 }
-if (isset($_REQUEST["anadir"])) {
-    header('Location:' . rutaCodigo . '/anadir.php');
+if (isset($_REQUEST["alta"])) {
+    header('Location:' . rutaCodigo . '/altaDepartamento.php');
 }
 if (isset($_REQUEST["volver"])) {
     
@@ -45,7 +42,7 @@ if (isset($_REQUEST["mostrarCodigo"])) {
             <div class="botones">
                 <input type="submit" value="importar" name="importar">
                 <input type="submit" value="exportar" name="exportar">
-                <input type="submit" value="anadir" name="anadir">
+                <input type="submit" value="Añadir" name="alta">
             </div>
             <div class="busqueda">
                 <label for="busqueda">Introduce el codigo departamento</label>
@@ -62,7 +59,9 @@ if (isset($_REQUEST["mostrarCodigo"])) {
         } else {
             $sql = "Select * from Departamento";
         }
-        require_once './config/confDBPDO.php';
+
+
+
         try {
             $miDB = new PDO(DSN, USER, PASSWORD);
 
@@ -74,8 +73,9 @@ if (isset($_REQUEST["mostrarCodigo"])) {
             }
 
             if ($eje) {
+
                 $oDepartamento = $departamentos->fetchObject();
-                echo <<<EOF
+                echo "
                     <table>
                         <thead>
                             <tr>
@@ -86,15 +86,14 @@ if (isset($_REQUEST["mostrarCodigo"])) {
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                EOF;
+                        <tbody>";
+
                 while ($oDepartamento) {
                     echo "<tr>\n\t<th>" . $oDepartamento->CodDepartamento . "</th>";
                     echo "\t<td>" . $oDepartamento->DescDepartamento . "</td>";
                     echo "\t<td>" . $oDepartamento->FechaBaja . "</td>";
                     echo "\t<td>" . $oDepartamento->VolumenNegocio . "</td>";
-                    echo "<td><a href=\"".rutaCodigo."/editar?codigo=".$oDepartamento->CodDepartamento."\">&#9999;&#65039;</a>	<a href=\"".rutaCodigo."/borrar?codigo=".$oDepartamento->CodDepartamento."\">&#128465;&#65039;</a> <a href=\"".rutaCodigo."/buscar?codigo=".$oDepartamento->CodDepartamento."\">&#128270;</a> </td>\n<tr>";
-
+                    echo "<td><a href=\"" . rutaCodigo . "/editarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#9999;&#65039;</a>	<a href=\"" . rutaCodigo . "/bajaDepartamento?codigo=" . $oDepartamento->CodDepartamento . "\">&#128465;&#65039;</a> <a href=\"" . rutaCodigo . "/mostrarDepartamento?codigo=" . $oDepartamento->CodDepartamento . "\">&#128270;</a> </td>\n</tr>";
                     $oDepartamento = $departamentos->fetchObject();
                 }
                 echo "</tbody>\n\t</table>";
