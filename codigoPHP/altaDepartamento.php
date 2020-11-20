@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Buscar departamento</title>
+        <title>Añadir Departamento</title>
         <style>
             .error{
                 color: red;

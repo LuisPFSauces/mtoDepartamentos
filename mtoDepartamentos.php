@@ -24,7 +24,7 @@ if (isset($_REQUEST["volver"])) {
     header("Location: ".rutaIndex);
 }
 if (isset($_REQUEST["mostrarCodigo"])) {
-    
+    header("Location: ".rutaCodigo."/mostrarCodigo.php");
 }
 ?>
 <html>
@@ -51,6 +51,9 @@ if (isset($_REQUEST["mostrarCodigo"])) {
             </div>
         </form>
         <?php
+        session_reset();
+        session_unset();
+        
         if (isset($_REQUEST["buscar"]) && !empty($_REQUEST["busqueda"])) {
             $sql = "Select * from Departamento where DescDepartamento like :descripcion";
             $valores = array(
@@ -108,6 +111,14 @@ if (isset($_REQUEST["mostrarCodigo"])) {
         ?>
         <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
             <input type="submit" value="Volver" name="volver">
+            <input type="submit" value="Mostrar Codigo" name="codigo">
         </form>
+        <?php 
+                session_start();
+                if(isset($_SESSION['error'])){
+                    echo $_SESSION['error'];
+                }
+        
+            ?>
     </body>
 </html>
