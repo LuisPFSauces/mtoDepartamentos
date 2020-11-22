@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 require_once '../config/confArchivo.php';
@@ -71,6 +70,7 @@ if (isset($_REQUEST['enviar'])) {
         unset($miDB);
     }
     ?>
+    <!DOCTYPE html>
     <html>
         <head>
             <meta charset="UTF-8">

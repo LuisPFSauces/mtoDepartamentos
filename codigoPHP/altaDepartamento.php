@@ -1,14 +1,14 @@
-<!DOCTYPE html>
 <?php
 session_start();
 require_once '../config/confArchivo.php';
 if (isset($_REQUEST['cancelar'])) {
     $_SESSION['alta']['ejecucion'] = true;
     $_SESSION['alta']['mensaje'] = "No se ha creado el departamento";
-    header("Location: " . rutaIndex."?CodPagina=alta");
+    header("Location: " . rutaIndex . "?CodPagina=alta");
     die();
 }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">

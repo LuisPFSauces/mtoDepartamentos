@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 require_once '../config/confArchivo.php';
@@ -9,6 +8,7 @@ if (isset($_REQUEST['cancelar'])) {
     die();
 }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -64,7 +64,6 @@ if (isset($_REQUEST['cancelar'])) {
                 session_start();
                 $_SESSION['importar']['ejecucion'] = false;
                 $_SESSION['importar']['mensaje'] = "Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")";
-                
             } finally {
                 unset($miDB);
                 session_commit();

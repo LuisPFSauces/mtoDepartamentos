@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 require_once '../config/confArchivo.php';
 if (isset($_REQUEST['volver'])) {
@@ -20,7 +19,7 @@ try {
         $_REQUEST["fechaBaja"] = $departamento->FechaBaja;
         $_REQUEST["volumen"] = $departamento->VolumenNegocio;
         ?>
-
+        <!DOCTYPE html>
         <html>
             <head>
                 <meta charset="UTF-8">

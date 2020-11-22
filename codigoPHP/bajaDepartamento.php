@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 require_once '../config/confArchivo.php';
 session_start();
@@ -26,7 +25,7 @@ define("OBLIGATORIO", 1);
 $entradaOK = true;
 
 if (isset($_REQUEST['enviar'])) {
-    
+
     try {
         $miDB = new PDO(DSN, USER, PASSWORD);
         $consulta = $miDB->prepare("delete from Departamento where CodDepartamento = :codigo");
@@ -59,7 +58,7 @@ if (isset($_REQUEST['enviar'])) {
             $_REQUEST["fechaBaja"] = $departamento->FechaBaja;
             $_REQUEST["volumen"] = $departamento->VolumenNegocio;
             ?>
-
+            <!DOCTYPE html>
             <html>
                 <head>
                     <meta charset="UTF-8">

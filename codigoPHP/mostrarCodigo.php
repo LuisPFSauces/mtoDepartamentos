@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
     require_once '../config/confArchivo.php';
     if(isset($_REQUEST["volver"])){
@@ -6,6 +5,7 @@
         die();
     } 
 ?>
+<!DOCTYPE html>
 <html lang="es">
     <head>
         <title>Mostrar Codigo</title>

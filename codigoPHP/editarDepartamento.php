@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 require_once '../config/confArchivo.php';
@@ -92,6 +91,7 @@ if ($entradaOK) {
     }
 } else {
     ?>
+    <!DOCTYPE html>
     <html>
         <head>
             <meta charset="UTF-8">

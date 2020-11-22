@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <?php
 session_start();
 require_once '../config/confArchivo.php';
 if (isset($_REQUEST['cancelar'])) {
     $_SESSION['bajaLo']['ejecucion'] = true;
     $_SESSION['bajaLo']['mensaje'] = "No se ha dado de baja a ningun departamento";
-    header("Location: " . rutaIndex."?CodPagina=bajaLo");
+    header("Location: " . rutaIndex . "?CodPagina=bajaLo");
     die();
 }
 require_once '../core/201109libreriaValidacion.php';
@@ -85,6 +84,7 @@ if ($entradaOK) {
     }
 } else {
     ?>
+    <!DOCTYPE html>
     <html>
         <head>
             <meta charset="UTF-8">

@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <?php
 require_once 'config/confArchivo.php';
 require_once './config/confDBPDO.php';
@@ -35,6 +29,7 @@ if (isset($_REQUEST["codigo"])) {
 
 session_start();
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -137,11 +132,11 @@ session_start();
             }
 
             if ($eje) {
-                if($departamentos ->rowCount() > 0){
-                    
-                
-                $oDepartamento = $departamentos->fetchObject();
-                echo "
+                if ($departamentos->rowCount() > 0) {
+
+
+                    $oDepartamento = $departamentos->fetchObject();
+                    echo "
                     <table>
                         <thead>
                             <tr>
@@ -154,21 +149,21 @@ session_start();
                         </thead>
                         <tbody>";
 
-                while ($oDepartamento) {
-                    is_null($oDepartamento->FechaBaja) ? $clase = "alta" : $clase = "baja";
-                    echo "<tr>\n\t<th class=\"$clase\">" . $oDepartamento->CodDepartamento . "</th>";
-                    echo "\t<td class=\"$clase\">" . $oDepartamento->DescDepartamento . "</td>";
-                    echo "\t<td class=\"$clase\">" . $oDepartamento->FechaBaja . "</td>";
-                    echo "\t<td class=\"$clase\">" . $oDepartamento->VolumenNegocio . "</td>";
-                    echo "<td><a href=\"" . rutaCodigo . "/editarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#9999;&#65039;</a>	<a href=\"" . rutaCodigo . "/bajaDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128465;&#65039;</a> <a href=\"" . rutaCodigo . "/mostrarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128270;</a>";
-                    if (is_null($oDepartamento->FechaBaja)) {
-                        echo "<a href=\"" . rutaCodigo . "/bajaLogicaDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128234;</a></td>\n</tr>";
-                    } else {
-                        echo "<a href=\"" . rutaCodigo . "/rehabilitacionDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128235;</a></td>\n</tr>";
+                    while ($oDepartamento) {
+                        is_null($oDepartamento->FechaBaja) ? $clase = "alta" : $clase = "baja";
+                        echo "<tr>\n\t<th class=\"$clase\">" . $oDepartamento->CodDepartamento . "</th>";
+                        echo "\t<td class=\"$clase\">" . $oDepartamento->DescDepartamento . "</td>";
+                        echo "\t<td class=\"$clase\">" . $oDepartamento->FechaBaja . "</td>";
+                        echo "\t<td class=\"$clase\">" . $oDepartamento->VolumenNegocio . "</td>";
+                        echo "<td><a href=\"" . rutaCodigo . "/editarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#9999;&#65039;</a>	<a href=\"" . rutaCodigo . "/bajaDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128465;&#65039;</a> <a href=\"" . rutaCodigo . "/mostrarDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128270;</a>";
+                        if (is_null($oDepartamento->FechaBaja)) {
+                            echo "<a href=\"" . rutaCodigo . "/bajaLogicaDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128234;</a></td>\n</tr>";
+                        } else {
+                            echo "<a href=\"" . rutaCodigo . "/rehabilitacionDepartamento.php?codigo=" . $oDepartamento->CodDepartamento . "\">&#128235;</a></td>\n</tr>";
+                        }
+                        $oDepartamento = $departamentos->fetchObject();
                     }
-                    $oDepartamento = $departamentos->fetchObject();
-                }
-                echo "</tbody>\n\t</table>";
+                    echo "</tbody>\n\t</table>";
                 } else {
                     echo "<p class=\"error\">No hay ningun departamento que coincida con las caracteristicas introducidas</p>";
                 }
