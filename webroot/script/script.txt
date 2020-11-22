@@ -1,0 +1,35 @@
+async function guardarDatos(funcion, elemento) {
+                var datos = await funcion;
+                elemento.value = datos;
+            }
+
+            async function subirArchivo(elemento) {
+                var archivo = elemento.files[0];
+                var elemento = document.getElementById("texto");
+                var lectoraDeFichero = (fichero) => {
+                    var lector = new FileReader();
+                    return new Promise((resolve, reject) => {
+                        lector.onerror = () => {
+                            lector.abort();
+                            reject(new DOMException("Problema al leer el archivo"));
+                        };
+                        lector.onload = () => {
+                            resolve(lector.result);
+                        };
+                        lector.readAsText(fichero);
+                    }
+                    );
+                }
+                
+                await guardarDatos(lectoraDeFichero(archivo), elemento);
+                
+
+                var form = new FormData();
+                //var http = new XMLHttpRequest();
+                form.append("importar", elemento.value);
+                //http.open("POST", "http://192.168.1.204/proyectoDWES/mtoDepartamentos/mtoDepartamentos.php");
+                //http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'):
+                //http.send(form);
+                fetch('http://192.168.1.204/proyectoDWES/mtoDepartamentos/codigoPHP/importarDepartamento.php', {method: "POST", body: form});
+                //elemento.form.submit();
+            }

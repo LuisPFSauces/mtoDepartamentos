@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<?php
+session_start();
+require_once '../config/confArchivo.php';
+if (isset($_REQUEST['cancelar'])) {
+    $_SESSION['alta']['ejecucion'] = true;
+    $_SESSION['alta']['mensaje'] = "No se ha creado el departamento";
+    header("Location: " . rutaIndex."?CodPagina=alta");
+    die();
+}
+?>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Añadir Departamento</title>
-        <style>
-            .error{
-                color: red;
+        <link rel="stylesheet" type="text/css" href="../webroot/css/estilos.css">
+        <script>
+            function elementoAMayusculas(elemento) {
+                elemento.value = elemento.value.toUpperCase();
             }
-        </style>
+        </script>
     </head>
     <body>
         <?php
@@ -23,7 +29,7 @@ and open the template in the editor.
             "codigo" => null,
             "descripcion" => null,
             "volumen" => null,
-             "conexion" => null
+            "conexion" => null
         );
 
         $formulario = array(
@@ -63,7 +69,7 @@ and open the template in the editor.
                         throw new ErrorException("Error al ejecutar la sentencia");
                     }
                 } catch (Exception $e) {
-                    $errores['conexion'] = "Error al realizar la conexion ( " . $e->getCode() . " )";
+                    $errores['conexion'] = "Error al realizar la conexion ( " . $e->getMessage() . " )";
                     $entradaOK = false;
                 } finally {
                     unset($conexion);
@@ -76,44 +82,50 @@ and open the template in the editor.
         }
 
         if ($entradaOK) {
+
             $formulario['codigo'] = $_REQUEST['codigo'];
             $formulario['descripcion'] = $_REQUEST['descripcion'];
             $formulario['volumen'] = $_REQUEST['volumen'];
             try {
-                $conexion = new PDO(DSN, USER, PASSWORD);
-                $prepare = $conexion->prepare("Insert into Departamento (CodDepartamento,DescDepartamento,VolumenNegocio) values (:codigo, :descripcion, :volumen)");
-                $ejecucion = $prepare->execute(array(":codigo" => $formulario['codigo'], ":descripcion" => $formulario['descripcion'], ":volumen" => $formulario['volumen']));
+                $miDB = new PDO(DSN, USER, PASSWORD);
+                $insercion = $miDB->prepare("Insert into Departamento (CodDepartamento,DescDepartamento,VolumenNegocio) values (:codigo, :descripcion, :volumen)");
+                $ejecucion = $insercion->execute(array(":codigo" => $formulario['codigo'], ":descripcion" => $formulario['descripcion'], ":volumen" => $formulario['volumen']));
 
                 if ($ejecucion) {
-                    echo "<p>Se ha insertado correctamente el departamento</p>";
+                    $_SESSION['alta']['ejecucion'] = true;
+                    $_SESSION['alta']['mensaje'] = "El departamento ha sido dado de alta";
                 } else {
-                    throw new Exception("Error al hacer la busqueda \"" . $departamentos->errorInfo()[2] . "\"", $departamentos->errorInfo()[1]);
+                    throw new Exception("Error al hacer la busqueda \"" . $insercion->errorInfo()[2] . "\"", $insercion->errorInfo()[1]);
                 }
             } catch (Exception $e) {
-               echo "<p>Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")</p>";
+                $_SESSION['alta']['ejecucion'] = false;
+                $_SESSION['alta']['mensaje'] = "Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")";
             } finally {
                 unset($conexion);
+                header("Location: " . rutaIndex . "?CodPagina=alta");
+                die();
             }
         } else {
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <label for="codigo">Introduce el codigo del departamento: </label>
-                <input type="text" id="codigo" name="codigo" value="<?php if (isset($_REQUEST["codigo"])) echo $_REQUEST["codigo"]; ?>"><br>
+                <input type="text" id="codigo" name="codigo" onblur="elementoAMayusculas(this)" value="<?php if (isset($_REQUEST["codigo"])) echo $_REQUEST["codigo"]; ?>">
                 <?php
-                echo!empty($errores['codigo']) ? "<p class=\"error\">" . $errores['codigo'] . "</p>" : "";
-                ?>
+                echo!empty($errores['codigo']) ? "<span class=\"error\">" . $errores['codigo'] . "</span>" : "";
+                ?><br>
                 <label for="descripcion">Introduce una descripción del departamento: </label>
-                <input type="text" id="descripcion" name="descripcion" value="<?php if (isset($_REQUEST["descripcion"])) echo $_REQUEST["descripcion"]; ?>"><br>
+                <input type="text" id="descripcion" name="descripcion" value="<?php if (isset($_REQUEST["descripcion"])) echo $_REQUEST["descripcion"]; ?>">
                 <?php
-                echo!empty($errores['descripcion']) ? "<p class=\"error\">" . $errores['descripcion'] . "</p>" : "";
-                ?>
+                echo!empty($errores['descripcion']) ? "<span class=\"error\">" . $errores['descripcion'] . "</span>" : "";
+                ?><br>
                 <label for="volumen">Introduce el volumen de negocio: </label>
-                <input type="text" id="volumen" name="volumen" value="<?php if (isset($_REQUEST["volumen"])) echo $_REQUEST["volumen"]; ?>"><br>
+                <input type="text" id="volumen" name="volumen" value="<?php if (isset($_REQUEST["volumen"])) echo $_REQUEST["volumen"]; ?>">
                 <?php
-                echo!empty($errores['volumen']) ? "<p class=\"error\">" . $errores['volumen'] . "</p>" : "";
-                echo!empty($errores['conexion']) ? "<p class=\"error\">" .$errores['conexion'] . "</p>" : "";
-                ?>
-                <input type="submit" value="consulta" name="enviar">
+                echo!empty($errores['volumen']) ? "<span class=\"error\">" . $errores['volumen'] . "</span>" : "";
+                echo!empty($errores['conexion']) ? "<span class=\"error\">" . $errores['conexion'] . "</span>" : "";
+                ?><br>
+                <input type="submit" value="Cancelar" name="cancelar">
+                <input type="submit" value="Crear" name="enviar">
             </form>
             <?php
         }

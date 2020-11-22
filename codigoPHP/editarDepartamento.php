@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <?php
+session_start();
 require_once '../config/confArchivo.php';
 if (isset($_REQUEST['cancelar'])) {
-    header("Location: " . rutaIndex);
+    $_SESSION['editar']['ejecucion'] = true;
+    $_SESSION['editar']['mensaje'] = "No se ha modificado el departamento";
+    header("Location: " . rutaIndex . "?CodPagina=editar");
     die();
 }
 require_once '../core/201109libreriaValidacion.php';
@@ -74,14 +77,17 @@ if ($entradaOK) {
         $ejecucion = $consulta->execute(array(":codigo" => $formulario['codigo'], ":descripcion" => $formulario['descripcion'], ":volumen" => $formulario['volumen']));
 
         if ($ejecucion) {
-            header("Location: " . rutaIndex);
+            $_SESSION['editar']['ejecucion'] = true;
+            $_SESSION['editar']['mensaje'] = "El departamento ha sido modificado";
         } else {
-            throw new Exception("Error al hacer la busqueda \"" . $consulta->errorInfo()[2] . "\"", $consulta->errorInfo()[1]);
+            throw new Exception("Error al hacer la busqueda \"" . $insercion->errorInfo()[2] . "\"", $insercion->errorInfo()[1]);
         }
     } catch (Exception $e) {
-        echo "<p>Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")</p>";
+        $_SESSION['editar']['ejecucion'] = false;
+        $_SESSION['editar']['mensaje'] = "Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")";
     } finally {
-        unset($miDB);
+        unset($conexion);
+        header("Location: " . rutaIndex . "?CodPagina=editar");
         die();
     }
 } else {
@@ -89,12 +95,8 @@ if ($entradaOK) {
     <html>
         <head>
             <meta charset="UTF-8">
-            <title>Buscar departamento</title>
-            <style>
-                .error{
-                    color: red;
-                }
-            </style>
+            <title>Editar departamento</title>
+            <link rel="stylesheet" type="text/css" href="../webroot/css/estilos.css">
         </head>
         <body>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">

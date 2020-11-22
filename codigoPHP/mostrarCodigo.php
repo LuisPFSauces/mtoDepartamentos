@@ -1,17 +1,47 @@
+<!DOCTYPE html>
 <?php
+    require_once '../config/confArchivo.php';
+    if(isset($_REQUEST["volver"])){
+        header("Location: ".rutaIndex);
+        die();
+    } 
+?>
+<html lang="es">
+    <head>
+        <title>Mostrar Codigo</title>
+        <style>
+            input{
+                border: 2px solid black;
+                border-radius: 2px;
+                background-color: aquamarine;
+                height: 50px;
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <input type="submit" value="volver" name="volver">
+        </form>
+    </body>
+</html>
+<?php
+    
     echo "<h1>Mostar Codigo</h1>";
     echo "<h2>mtoDepartamentos</h2>";
     highlight_file('../mtoDepartamentos.php');
     echo "<h2>Alta Departamento</h2>";
-    highlight_file('altaDepartamento');
-    echo "<h2>mtoDepartamentos</h2>";
-    highlight_file('bajaDepartamento');
-    highlight_file('bajaLogicaDepartamento');
-    highlight_file('editarDepartamento');
-    highlight_file('exportarDepartamento');
-    highlight_file('importarDepartamento');
-    highlight_file('mostrarDepartamentoDepartamento');
-    
-    
-    echo "<h2>mtoDepartamentos</h2>";
+    highlight_file('altaDepartamento.php');
+    echo "<h2>Baja Departamento</h2>";
+    highlight_file('./bajaDepartamento.php');
+    echo "<h2>Baja lógica Departamento</h2>";
+    highlight_file('./bajaLogicaDepartamento.php');
+    echo "<h2>Editar Departamento</h2>";
+    highlight_file('./editarDepartamento.php');
+    echo "<h2>Exportar Departamento</h2>";
+    highlight_file('./exportarDepartamento.php');
+    echo "<h2>Importar</h2>";
+    highlight_file('./importarDepartamento.php');
+    echo "<h2>Mostrar Departamento</h2>";
+    highlight_file('./mostrarDepartamento.php');
     

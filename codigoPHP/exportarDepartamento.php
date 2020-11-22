@@ -1,7 +1,8 @@
 <?php
 
 require_once '../config/confDBPDO.php';
-session_start();
+require_once '../config/confArchivo.php';
+
 function crearHijo($nombre, $dom, &$nodo, $valor = null) {
     if ($dom instanceof DOMDocument && $nodo instanceof DOMElement) {
         if (is_null($valor)) {
@@ -16,17 +17,18 @@ function crearHijo($nombre, $dom, &$nodo, $valor = null) {
         return null;
     }
 }
+
 try {
-    
+
     $miDB = new PDO(DSN, USER, PASSWORD);
     $consulta = $miDB->prepare("Select * from Departamento");
-    $consulta->execute();
-
+    $ejecucion = $consulta->execute();
+    if($ejecucion){
     $dom = new DOMDocument("1.0", "UTF-8");
     $dom->preserveWhiteSpace = true;
     $dom->formatOutput = true;
-    
-    
+
+
     $root = $dom->createElement("Departamentos");
     $dom->appendChild($root);
 
@@ -44,11 +46,15 @@ try {
     header('Content-Disposition: attachment;filename="SQL.xml"');
     header('Content-Type: text/xml');
     readfile("../tmp/SQL.xml");
-    $_SESSION["error"] = "Todo se ha ejecutado correctamente";
     
+    } else{
+         throw new Exception("Error al hacer la busqueda \"" . $consulta->errorInfo()[2] . "\"", $consulta->errorInfo()[1]);
+    }
 } catch (Exception $e) {
-    
-    $_SESSION["error"] = "Error " . $e->getCode() . ", " . $e->getMessage() . ".";
+    session_start();
+    $_SESSION['exportar']['ejecucion'] = false;
+    $_SESSION['exportar']['mensaje'] = "Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")";
+    header("Location: " . rutaIndex . "?CodPagina=exportar");
 } finally {
     unset($miDB);
     session_commit();
