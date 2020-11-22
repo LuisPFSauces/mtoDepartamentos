@@ -23,7 +23,7 @@
     define("PASSWORD", "paso");//P@ssw0rd
     */
     define("DSN", "mysql:host=db771560183.hosting-data.io;dbname=db771560183");
-    define("USER", "dbu771560183");
+    define("USER", "dbo771560183");
     define("PASSWORD", "Covid1234$");
     
  
