@@ -88,7 +88,9 @@ if (isset($_REQUEST['enviar'])) {
                 unset($miDB);
                 $entradaOK = false;
             }
-        }
-        ?>
-    </body>
-</html>
+            ?>
+        </body>
+    </html>
+    <?php
+}
+    

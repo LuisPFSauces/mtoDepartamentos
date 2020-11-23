@@ -38,19 +38,18 @@ try {
                     <input type="text" id="volumen" name="volumen" readonly value="<?php if (isset($_REQUEST["volumen"])) echo $_REQUEST["volumen"]; ?>"><br>
                     <input type="submit" value="Volver" name="volver">
                 </form>
-                <?php
-            } else {
-                throw new Exception("Error al hacer la busqueda \"" . $consulta->errorInfo()[2] . "\"", $consulta->errorInfo()[1]);
-            }
-        } catch (Exception $e) {
-            session_start();
-            $_SESSION['mostar']['ejecucion'] = false;
-            $_SESSION['mostar']['mensaje'] = "Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")";
-            header("Location: " . rutaIndex . "?CodPagina=mostar");
-        } finally {
-            unset($miDB);
-            die();
-        }
-        ?>
-    </body>
-</html>
+            </body>
+        </html>
+        <?php
+    } else {
+        throw new Exception("Error al hacer la busqueda \"" . $consulta->errorInfo()[2] . "\"", $consulta->errorInfo()[1]);
+    }
+} catch (Exception $e) {
+    session_start();
+    $_SESSION['mostar']['ejecucion'] = false;
+    $_SESSION['mostar']['mensaje'] = "Se ha producido un error al conectar con la base de datos( " . $e->getMessage() . ", " . $e->getCode() . ")";
+    header("Location: " . rutaIndex . "?CodPagina=mostar");
+} finally {
+    unset($miDB);
+    die();
+}

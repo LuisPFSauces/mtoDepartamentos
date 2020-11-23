@@ -117,8 +117,8 @@ if ($entradaOK) {
                 <input type="submit" value="cancelar" name="cancelar">
                 <input type="submit" value="Editar" name="enviar">
             </form>
-            <?php
-        }
-        ?>
-    </body>
-</html>
+
+        </body>
+    </html>
+    <?php
+}
